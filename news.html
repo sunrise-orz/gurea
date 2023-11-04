@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>記事一覧</title>
+</head>
+<body>
+
+    <div id="articles" style="width: 100%;"></div>
+
+    <script>
+        // JSONファイルのURL（実際のパスに変更する必要があります）
+        const jsonUrl = 'news_data.json';
+
+        // 表示する記事の数
+        let displayCount = 0; // 初期値を適当な数に設定
+
+        fetch(jsonUrl)
+            .then(response => response.json())
+            .then(articles => {
+                const articlesDiv = document.getElementById('articles');
+
+                // displayCountが-1の場合、すべての記事を表示
+                if (displayCount === -1) {
+                    displayCount = articles.length;
+                }
+
+                // displayCountが0の場合、画面サイズに合わせて記事を表示
+                else if (displayCount === 0) {
+                    const estimatedArticleHeight = 100; // 1記事のおおよその高さ
+                    displayCount = Math.floor(window.innerHeight / estimatedArticleHeight);
+                }
+
+                articles.slice(0, displayCount).forEach(article => {
+                    const articleHtml = `
+                        <a href="${article.url}" style="text-decoration: none; color: black; display: block; margin-bottom: 15px;">
+                            <div style="display: flex; align-items: center;">
+                                <img src="${article.image}" alt="${article.title}" style="width: 160px; height: 90px; margin-right: 15px;">
+                                <div>
+                                    <div style="color: gray; font-size: 0.8em; margin-bottom: 5px;">${article.date}</div>
+                                    <span style="font-weight: bold;">${article.title}</span>
+                                </div>
+                            </div>
+                        </a>
+                    `;
+                    articlesDiv.innerHTML += articleHtml;
+                });
+            })
+            .catch(error => {
+                console.error('JSONファイルの読み込みに失敗しました:', error);
+            });
+    </script>
+
+</body>
+</html>

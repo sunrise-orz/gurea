@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Slider</title>
+
+    <!-- Slick CSS and YouTube iframe API -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/jquery.slick/1.6.0/slick.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/jquery.slick/1.6.0/slick-theme.css" />
+
+    <style>
+        .slider {
+            width: 100%;
+        }
+
+        .slider-img,
+        .slider-img iframe {
+            width: 100%;
+        }
+
+        .slick-center .slider-img {
+            transform: scale(1.1);
+            z-index: 3;
+            opacity: 1;
+        }
+
+        .slick-slide:not(.slick-center) .slider-img {
+            transform: scale(0.9);
+            opacity: 0.5;
+            transition: opacity 0.3s;
+        }
+
+        /* スライドの移動ボタンのスタイルを追加 */
+        .slick-prev,
+        .slick-next {
+            font-size: 20px;
+            line-height: 1;
+            opacity: 0.75;
+            color: white;
+            z-index: 5;
+        }
+
+        .slick-prev {
+            left: 10px;
+        }
+
+        .slick-next {
+            right: 10px;
+        }
+
+        .slider-img iframe {
+            border: none; /* ボーダーを削除する場合 */
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="slider">
+        <div class="slider-img">
+            <iframe id="video1" src="https://www.youtube.com/embed/2MFvPkKGcoU?si=2XMR6BBOAnx-OipB&enablejsapi=1" allowfullscreen></iframe>
+        </div>
+        <div class="slider-img">
+            <iframe id="video2" src="https://www.youtube.com/embed/MlJgS6IbeZ4?si=-lFBcNeUQpLu00J7&enablejsapi=1" allowfullscreen></iframe>
+        </div>
+        <div class="slider-img">
+            <iframe id="video3" src="https://www.youtube.com/embed/3atP_URqXmc?si=m-x8E0xnwFaVnv40&enablejsapi=1" allowfullscreen></iframe>
+        </div>
+        <div class="slider-img">
+            <iframe id="video4" src="https://www.youtube.com/embed/?list=UUJZlpooKiqbLuClJxZP0r6w" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <!-- jQuery, Slick JS, and YouTube iframe API handling -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+
+    <script>
+        let players = [];
+
+        function onYouTubeIframeAPIReady() {
+            players.push(new YT.Player('video1', {
+                events: {
+                    'onStateChange': onPlayerStateChange
+                }
+            }));
+            players.push(new YT.Player('video2', {
+                events: {
+                    'onStateChange': onPlayerStateChange
+                }
+            }));
+            players.push(new YT.Player('video3', {
+                events: {
+                    'onStateChange': onPlayerStateChange
+                }
+            }));
+            players.push(new YT.Player('video4', {
+                events: {
+                    'onStateChange': onPlayerStateChange
+                }
+            }));
+        }
+
+        function onPlayerStateChange(event) {
+            if (event.data == YT.PlayerState.PLAYING) {
+                $(".slider").slick('slickPause');
+            } else {
+                $(".slider").slick('slickPlay');
+            }
+        }
+
+        $(function () {
+            const adjustIframeHeight = () => {
+                const width = $('.slider').width();
+                const height = width * 9 / 20; // この値を調整して動画の高さを変更
+                $('.slider-img, .slider-img iframe').css('height', height);
+            };
+            adjustIframeHeight();
+            $(window).resize(adjustIframeHeight);
+
+            $(".slider").slick({
+                arrows: false,
+                autoplay: true,
+                adaptiveHeight: true,
+                centerMode: true,
+                centerPadding: "15%",
+                dots: true,
+                focusOnSelect: true,
+            });
+        });
+    </script>
+
+</body>
+
+</html>

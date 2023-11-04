@@ -1,0 +1,359 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>サイトのタイトル</title>
+    <style>
+        /* リセットCSS: ブラウザ間の差異をなくす */
+        body, div, h1, h2, p, img, nav, ul, li, span, a {
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #FFFFFC;
+        }
+
+        /* ヘッダー */
+        #header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #FFFFFC;
+            padding: 10px 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .frame {
+            border: none;
+            width: 100%; /* iframeの幅を100%に設定 */
+            height: 100%; /* iframeの高さをビューポートの高さに設定 */
+        }
+
+        .container, #main {
+            width: 1111px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        #main {
+            display: block;
+            width: 80%;
+            text-align: center;
+        }
+
+        #logo {
+            max-width: 200px;
+            height: 100px;
+        }
+
+        #navigation {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-item {
+            list-style-type: none;
+            font-size: 36px;
+        }
+
+        .nav-link {
+            color: #ff66f7;
+            text-decoration: none;
+            display: block;
+        }
+
+        .nav-description {
+            display: block;
+            color: #888888;
+            font-size: 12px;
+        }
+
+        /* 要素 */
+        #content {
+            margin: 200px 0 0 0;
+            text-align: center;
+        }
+
+        #main-title {
+            color: #ffa3fa;
+            font-size: 40px;
+            text-align: center;
+        }
+
+        #sub-title {
+            color: #888888;
+            font-size: 30px;
+            margin-bottom: 10px;
+            text-align: center;
+            border-bottom: 1px solid;
+            padding-bottom: 10px;
+        }
+
+        .content-text {
+            color: #333;
+            font-size: 16px;
+        }
+
+        #news {
+            display: inline-flex;
+            gap: 5vw;
+        }
+
+        .profile-section {
+            display: flex;
+            justify-content: center; /* 横方向の中央寄せのための設定 */
+            align-items: center; /* 縦方向の中央寄せのための設定 */
+            margin-top: 20px;
+        }
+
+        .profile-image {
+            max-height: 60vh;
+            margin-right: 20px; /* 画像とプロフィールの間にスペースを追加 */
+        }
+
+        .profile-details {
+            display: flex;
+            flex-direction: column; /* 縦方向に要素を並べる */
+            align-items: center; /* 中央寄せのための設定 */
+            border: 3px solid #ff66f7;
+            border-radius: 20px; /* 曲線的で柔らかい印象を与えるための設定 */
+            padding: 20px 40px; /* 左右のパディングを増やして、縦方向のパディングを調整 */
+        }
+
+        .profile-item {
+            color: #000;
+            margin-bottom: 10px;
+            text-align: center; /* 項目を中央寄せにする */
+        }
+
+        .role {
+            color: #ffa3fa;
+        }
+
+        .staff_link {
+            color: #888888;
+            text-decoration: none;
+        }
+
+        .staff {
+            display: inline-flex;
+            gap: 10vw;
+        }
+
+        .stylish-footer {
+            background-color: #ffa3fa;
+            padding: 20px 0;
+            color: #fff; /* テキストの白色 */
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap; /* コンテンツが多くて一行に収まらない場合、次の行に折り返す */
+        }
+
+            .footer-content p {
+                margin: 0;
+                padding: 0;
+            }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            gap: 20px; /* 各リンクの間隔 */
+        }
+
+            .footer-links li a {
+                color: #fff;
+                text-decoration: none;
+                transition: opacity 0.3s; /* ホバー時のアニメーション */
+            }
+
+                .footer-links li a:hover {
+                    opacity: 0.7; /* ホバー時の透明度 */
+                }
+
+        @media (max-width: 830px) {
+            #news {
+                display: block;
+            }
+
+            .container, #main {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            #content {
+                margin: 130px 0 0 0;
+            }
+
+            #logo {
+                max-width: 150px;
+                height: 55px;
+            }
+
+            .nav-item {
+                font-size: 18px;
+            }
+
+            div[style*="width: 80%"] {
+                width: 95% !important;
+            }
+
+            .staff {
+                display: block;
+            }
+
+            .profile-section {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .profile-image {
+                margin-right: 0; /* スマートフォンの表示では余白を0に設定 */
+                margin-bottom: 20px; /* 画像とプロフィールの間にスペースを追加 */
+            }
+
+            .profile-details {
+                margin: 0 auto; /* 中央寄せのための設定 */
+                padding: 15px 30px; /* スマートフォンの表示ではパディングを調整 */
+            }
+        }
+    </style>
+    <script>
+        window.addEventListener('load', function () {
+            var iframes = document.querySelectorAll('.frame');
+            for (var i = 0; i < iframes.length; i++) {
+                var iframe = iframes[i];
+                iframe.onload = function () {
+                    this.style.height = this.contentWindow.document.body.scrollHeight + 'px';
+                };
+            }
+        });
+    </script>
+</head>
+<body>
+    <!-- ヘッダー -->
+    <header id="header">
+        <div class="container">
+            <a href="#">
+                <img src="./unofficial.png" alt="ロゴ" id="logo">
+            </a>
+            <nav>
+                <ul id="navigation">
+                    <li class="nav-item"><a href="#profile-anchor" class="nav-link">PROFILE<span class="nav-description">プロフィール</span></a></li>
+                    <li class="nav-item"><a href="#record-anchor" class="nav-link">RECORD<span class="nav-description">活動記録</span></a></li>
+                    <li class="nav-item"><a href="#news-anchor" class="nav-link">NEWS<span class="nav-description">ニュース</span></a></li>
+                    <li class="nav-item"><a href="#movie-anchor" class="nav-link">MOVIE<span class="nav-description">動画</span></a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div>
+        <div id="main">
+            <div id="content">
+                <img src="./gurea_logo.png" style="width:80%;" />
+                <!--<div style="margin-top:10vh;">
+                    <h1 id="main-title">プロフィール</h1>
+                    <h2 id="sub-title">profile</h2>
+                    <div>
+                        <div class="profile-section">
+                        </div>
+                    </div>
+                </div>-->
+                <div id="profile-anchor" style="position: relative; top: -150px;"></div>
+                <div style="margin-top:10vh;" id="profile">
+                    <h1 id="main-title">プロフィール</h1>
+                    <h2 id="sub-title">profile</h2>
+                    <div>
+                        <div class="profile-section">
+                            <img src="./gureaimg4profile.png" alt="プロフィール画像" class="profile-image">
+                            <div class="profile-details">
+                                <div class="profile-item">名前：グレア.LiL.ガルシア</div>
+                                <div class="profile-item">誕生日：2月6日</div>
+                                <div class="profile-item">身長：140cm</div>
+                                <div class="profile-item">ママ：<a href="https://twitter.com/w_takahiro" target="_blank">鶴崎貴大</a></div>
+                                <!-- その他のプロフィール項目を追加する場合は、ここに追記してください -->
+                            </div>
+                        </div>
+                        <!-- ここにテキストや画像、動画などのコンテンツを追加 -->
+                    </div>
+                </div>
+                <div id="record-anchor" style="position: relative; top: -150px;"></div>
+                <div style="margin-top:10vh;" id="record">
+                    <h1 id="main-title">活動記録</h1>
+                    <h2 id="sub-title">record</h2>
+                    <div>
+                        <div>
+                            <iframe src="./calendar.html" class="frame" style="overflow: hidden; width: 80%; min-height: 450px; height: 50vh;"></iframe>
+                        </div>
+                    </div>
+                </div>
+                <div id="news-anchor" style="position: relative; top: -150px;"></div>
+                <div style="margin-top:10vh;" id="news">
+                    <h1 id="main-title">ニュース</h1>
+                    <h2 id="sub-title">news</h2>
+                    <div>
+                        <div id="news">
+                            <iframe src="./news.html" class="frame" style="overflow: hidden; width: 40%; min-width: 350px; min-height: 550px;"></iframe>
+                            <div style="overflow: hidden; width: 40%; min-width: 350px; min-height: 500px;">
+                                <a class="twitter-timeline" href="https://twitter.com/Gurea_2626?ref_src=twsrc%5Etfw" data-height="550px">Tweets by Gurea_2626</a>
+                                <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="movie-anchor" style="position: relative; top: -150px;"></div>
+                <div style="margin-top:10vh;" id="movie">
+                    <h1 id="main-title">おすすめ動画</h1>
+                    <h2 id="sub-title">movie</h2>
+                    <div>
+                        <div>
+                            <iframe src="./movie_slide.html" class="frame" style="overflow: hidden; width: 80%; min-height: 33vw;"></iframe>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top:10vh;">
+                    <h1 id="main-title">ホームページ制作</h1>
+                    <h2 id="sub-title">home page staff</h2>
+                    <div style="margin: 10vh 0;">
+                        <div class="staff">
+                            <div style="margin-bottom: 5vh;"><p class="role">企画・制作</p><p class="staff_name">サンライズ</p><a class="staff_link" href="https://twitter.com/sunrise_xor" 　target="_blank">@sunrise_xor</a></div>
+                            <div style="margin-bottom: 5vh;"><p class="role">デザイン</p><p class="staff_name">トガイ薙帆</p><a class="staff_link" href="https://twitter.com/togai_nagiho" 　target="_blank">@togai_nagiho</a></div>
+                            <div style="margin-bottom: 5vh;"><p class="role">協力</p><p class="staff_name">ロック</p><a class="staff_link" href="https://twitter.com/rock_wave_yuri" 　target="_blank">@rock_wave_yuri</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="stylish-footer">
+        <div class="footer-content">
+            <p>
+                当サイトは個人VTuberグレア.LiL.ガルシアのファンサイトです。<br />本人の許諾はなく指導が入った場合にはそれに従い編集・削除が行われる場合があります。<br />
+                又、可能な限り正確な情報を心掛けていますが誤った情報・古い情報が掲載されている可能性もあります。
+            </p>
+            <ul class="footer-links">
+                <li><a href="https://twitter.com/sunrise_orz" target="_blank">お問い合わせ</a></li>
+            </ul>
+        </div>
+    </footer>
+</body>
+</html>

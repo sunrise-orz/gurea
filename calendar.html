@@ -1,0 +1,119 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>カレンダー表示</title>
+    <!-- FullCalendarのCSSとJavaScriptを読み込む -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css" />
+    <!-- BootstrapのCSSとJavaScriptを読み込む -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/locale/ja.js"></script>  <!-- 日本語ロケールファイルを追加 -->
+    <style>
+        .fc-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .fc-title {
+            white-space: normal !important; /* タイトル内の改行を許可 */
+            height: 2.2em; /* タイトルの高さを2行分に制限 */
+            overflow: hidden; /* 2行を超えるテキストを非表示に */
+            line-height: 1.1em; /* 行の高さを設定 */
+            color: #0044AA; /* 文字色を濃い青色に変更 */
+            text-decoration: none !important; /* 下線を削除 */
+        }
+
+        .fc-event {
+            background-color: #AEDFFF; /* 要素の背景色を淡い青色に変更 */
+            border-color: #0044AA; /* 要素の境界線の色を濃い青色に変更 */
+        }
+
+        #calendar {
+            background-color: #FFFFFC; /* カレンダーの背景色を#FFEEFEに変更 */
+        }
+
+        .fc td {
+            border-color: #FFB8F8; /* 枠線の色 */
+        }
+    </style>
+</head>
+<body>
+
+    <div id="calendar"></div>
+
+    <script>
+        $(document).ready(function () {
+            // カレンダーの初期化
+            $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month'  // 週と日の表示切り替えを削除
+                },
+                defaultDate: moment().format('YYYY-MM-DD'),  // ページが読み込まれたその日付をデフォルトの日付とする
+                events: './calendar-data.json',  // カレンダーデータの読み込み
+                locale: 'ja',  // 日本語ロケールを設定
+                fixedWeekCount: false,  // 最後の週の翌週を表示しないようにする
+                height: 'auto',
+                eventRender: function (event, element) {
+                    // YouTubeの動画IDを抽出
+                    const youtubeId = event.youtubeUrl.split('v=')[1].split('&')[0];
+                    // YouTubeのサムネイルURLを作成
+                    const youtubeThumbnailUrl = `https://img.youtube.com/vi/${youtubeId}/0.jpg`;
+                    // ポップオーバーのコンテンツを作成
+                    const popoverContent = `
+                                <strong>${event.title}</strong><br>
+                                開始: ${moment(event.start).format('YYYY-MM-DD HH:mm')}<br>
+                                終了: ${moment(event.end).format('YYYY-MM-DD HH:mm')}<br>
+                                <a href="${event.youtubeUrl}" target="_blank"><img src="${youtubeThumbnailUrl}" width="100%"></a>
+                            `;
+                    // イベントのタイトルに改行を含めることができるようにする
+                    const titleWithBreaks = event.title.replace(/ /g, '<br>'); // 例: スペースを改行に置き換える
+                    const customTitle = `<div class="fc-title"><a href="${event.youtubeUrl}" target="_blank">${titleWithBreaks}</a></div>`;
+                    element.find('.fc-content').html(customTitle);
+                    // ポップオーバーを設定
+                    element.popover({
+                        title: event.title,
+                        content: popoverContent,
+                        trigger: 'manual',  // マニュアル制御に変更
+                        html: true,
+                        placement: 'top',
+                        container: 'body'
+                    });
+
+                    // マウスエンター時にポップオーバーを表示
+                    element.on('mouseenter', function () {
+                        $(this).popover('show');
+                        // ポップオーバー要素上でのマウスリーブ時にポップオーバーを非表示
+                        $('.popover').on('mouseleave', function () {
+                            element.popover('hide');
+                        });
+                    });
+
+                    // マウスリーブ時にポップオーバーを非表示
+                    element.on('mouseleave', function () {
+                        setTimeout(function () {
+                            if (!$('.popover:hover').length) {
+                                element.popover('hide');
+                            }
+                        }, 300);
+                    });
+                }
+            });
+            // ウィンドウサイズが変更されたときにカレンダーの高さを調整
+            $(window).resize(function () {
+                const newHeight = $(window).height();
+                $('#calendar').fullCalendar('option', 'height', newHeight);
+            });
+        });
+    </script>
+
+</body>
+</html>
