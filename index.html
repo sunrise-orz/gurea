@@ -238,17 +238,6 @@
             }
         }
     </style>
-    <script>
-        window.addEventListener('load', function () {
-            var iframes = document.querySelectorAll('.frame');
-            for (var i = 0; i < iframes.length; i++) {
-                var iframe = iframes[i];
-                iframe.onload = function () {
-                    this.style.height = this.contentWindow.document.body.scrollHeight + 'px';
-                };
-            }
-        });
-    </script>
 </head>
 <body>
     <!-- ヘッダー -->
@@ -280,7 +269,7 @@
                         </div>
                     </div>
                 </div>-->
-                <div id="profile-anchor" style="position: relative; top: -150px;"></div>
+                <div id="profile-anchor" style="position: relative; top: -100px;"></div>
                 <div style="margin-top:10vh;" id="profile">
                     <h1 id="main-title">プロフィール</h1>
                     <h2 id="sub-title">profile</h2>
@@ -298,7 +287,7 @@
                         <!-- ここにテキストや画像、動画などのコンテンツを追加 -->
                     </div>
                 </div>
-                <div id="record-anchor" style="position: relative; top: -150px;"></div>
+                <div id="record-anchor" style="position: relative; top: -100px;"></div>
                 <div style="margin-top:10vh;" id="record">
                     <h1 id="main-title">活動記録</h1>
                     <h2 id="sub-title">record</h2>
@@ -309,7 +298,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="news-anchor" style="position: relative; top: -150px;"></div>
+                <div id="news-anchor" style="position: relative; top: -100px;"></div>
                 <div style="margin-top:10vh;" id="news">
                     <h1 id="main-title">ニュース</h1>
                     <h2 id="sub-title">news</h2>
@@ -323,7 +312,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="movie-anchor" style="position: relative; top: -150px;"></div>
+                <div id="movie-anchor" style="position: relative; top: -100px;"></div>
                 <div style="margin-top:10vh;" id="movie">
                     <h1 id="main-title">おすすめ動画</h1>
                     <h2 id="sub-title">movie</h2>
