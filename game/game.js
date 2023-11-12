@@ -30,7 +30,7 @@ var nextFruitDisplay, nextFruitLabel;
 var friction = 1.0; // 摩擦係数の初期値
 var restitution = 0.01; // 反発係数の初期値
 var gameOver = false; // ゲームオーバーフラグ
-var gameOverY = 100; // ゲームオーバーとするY軸の高さ
+var gameOverY = 200; // ゲームオーバーとするY軸の高さ
 var gameOverImage;
 var scoreDisplay;
 var retryButton;
