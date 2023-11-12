@@ -88,7 +88,7 @@ function getScoreValue(fruitKey) {
 }
 
 
-var selectableFruits = ['fruit1', 'fruit2', 'fruit3', 'fruit4', 'fruit5', 'fruit6', 'fruit7', 'fruit8', 'fruit9', 'fruit10', 'fruit11'];
+var selectableFruits = ['fruit1', 'fruit2', 'fruit3'];
 
 function create() {
     this.add.image(0, 0, 'background').setOrigin(0, 0).setDisplaySize(this.game.config.width, this.game.config.height);
