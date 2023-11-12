@@ -19,7 +19,7 @@
 var game = new Phaser.Game(config);
 var currentFruit;
 var canMoveFruit = true;
-var fruitDelay = 1500;
+var fruitDelay = 1000;
 var fruits = [];
 var fruitRadius = 15;
 var leftWall, rightWall;
@@ -30,7 +30,7 @@ var nextFruitDisplay, nextFruitLabel;
 var friction = 1.0; // 摩擦係数の初期値
 var restitution = 0.01; // 反発係数の初期値
 var gameOver = false; // ゲームオーバーフラグ
-var gameOverY = 500; // ゲームオーバーとするY軸の高さ
+var gameOverY = 1000; // ゲームオーバーとするY軸の高さ
 var gameOverImage;
 var scoreDisplay;
 var retryButton;
