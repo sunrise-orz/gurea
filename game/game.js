@@ -31,6 +31,7 @@ var friction = 1.0; // 摩擦係数の初期値
 var restitution = 0.01; // 反発係数の初期値
 var gameOver = false; // ゲームオーバーフラグ
 var gameOverY = 200; // ゲームオーバーとするY軸の高さ
+var gameOverLine;
 var gameOverImage;
 var scoreDisplay;
 var retryButton;
@@ -159,7 +160,7 @@ function checkGameOver() {
         // オブジェクトが存在し、y プロパティがあることを確認
         if (fruit && fruit.body) {
             var fruitBottomY = fruit.body.position.y - fruit.radius;
-            if (fruits[i] && fruits[i].body && fruitBottomY < gameOverY) {
+            if (fruits[i] && fruits[i].body && fruitBottomY < gameOverLine.y) {
                 // ゲームオーバー処理
                 this.matter.world.enabled = false; // 物理エンジンを停止
                 gameOver = true;
