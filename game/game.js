@@ -1,4 +1,4 @@
-﻿var config = {
+var config = {
     type: Phaser.AUTO,
     width: 1100,
     height: 1050,
@@ -93,7 +93,7 @@ var selectableFruits = ['fruit1', 'fruit2', 'fruit3'];
 
 function create() {
     this.add.image(0, 0, 'background').setOrigin(0, 0).setDisplaySize(this.game.config.width, this.game.config.height);
-    var gameOverLine = this.add.image(this.game.config.width / 2, gameOverY - 10, 'gameOverLine');
+    gameOverLine = this.add.image(this.game.config.width / 2, gameOverY - 10, 'gameOverLine');
     gameOverLine.setScale(700 / gameOverLine.width, 20 / gameOverLine.height);
     leftWall = this.matter.add.image(200, this.game.config.height / 2, 'invisibleWall', null, { isStatic: true }).setScale(1, this.game.config.height);
     rightWall = this.matter.add.image(900, this.game.config.height / 2, 'invisibleWall', null, { isStatic: true }).setScale(1, this.game.config.height);
