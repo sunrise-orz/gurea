@@ -1,7 +1,7 @@
 var config = {
     type: Phaser.AUTO,
-    width: 1100,
-    height: 1050,
+    width: 1920,
+    height: 1080,
     physics: {
         default: 'matter',
         matter: {
@@ -30,7 +30,7 @@ var nextFruitDisplay, nextFruitLabel;
 var friction = 1.0; // 摩擦係数の初期値
 var restitution = 0.01; // 反発係数の初期値
 var gameOver = false; // ゲームオーバーフラグ
-var gameOverY = 200; // ゲームオーバーとするY軸の高さ
+var gameOverY = 160; // ゲームオーバーとするY軸の高さ
 var gameOverLine;
 var gameOverImage;
 var scoreDisplay;
@@ -55,6 +55,7 @@ function preload() {
     this.load.image('retryButton', './img/retry_button.png');
     this.load.image('twitterButton', './img/twitter_button.png');
     this.load.image('background', './img/background.png');
+    this.load.image('gureaLogo', './img/gurea_logo.webp');
 }
 
 var fruitScaleRatios = {
@@ -89,18 +90,19 @@ function getScoreValue(fruitKey) {
 }
 
 
-var selectableFruits = ['fruit1', 'fruit2', 'fruit3'];
+var selectableFruits = ['fruit1', 'fruit2', 'fruit3', 'fruit4'/*, 'fruit5', 'fruit6', 'fruit7', 'fruit8', 'fruit9'*/];
 
 function create() {
     this.add.image(0, 0, 'background').setOrigin(0, 0).setDisplaySize(this.game.config.width, this.game.config.height);
-    gameOverLine = this.add.image(this.game.config.width / 2, gameOverY - 10, 'gameOverLine');
-    gameOverLine.setScale(700 / gameOverLine.width, 20 / gameOverLine.height);
-    leftWall = this.matter.add.image(200, this.game.config.height / 2, 'invisibleWall', null, { isStatic: true }).setScale(1, this.game.config.height);
-    rightWall = this.matter.add.image(900, this.game.config.height / 2, 'invisibleWall', null, { isStatic: true }).setScale(1, this.game.config.height);
+    gameOverLine = this.add.image(this.game.config.width / 2, gameOverY, 'gameOverLine');
+    gameOverLine.setScale(800 / gameOverLine.width, 10 / gameOverLine.height);
+    leftWall = this.matter.add.image(560, this.game.config.height / 2, 'invisibleWall', null, { isStatic: true }).setScale(1, this.game.config.height);
+    rightWall = this.matter.add.image(1360, this.game.config.height / 2, 'invisibleWall', null, { isStatic: true }).setScale(1, this.game.config.height);
 
-    var floor = this.matter.add.image(this.game.config.width / 2, this.game.config.height, 'invisibleWall', null, { isStatic: true });
+    // 床との摩擦係数を設定
+    var floor = this.matter.add.image(this.game.config.width / 2, this.game.config.height, 'invisibleWall', null, { isStatic: true, friction: 2.0, frictionStatic:2.0 });
     floor.setScale(this.game.config.width / floor.width, 0.5);
-    floor.setPosition(this.game.config.width / 2, this.game.config.height - 150);
+    floor.setPosition(this.game.config.width / 2, 960);
 
     scoreText = this.add.text(10, 10, 'Score: \n   0', {
         fontSize: '32px',
@@ -108,7 +110,7 @@ function create() {
         align: 'right'
     });
 
-    nextFruitLabel = this.add.text(940, 10, 'NEXT:', { fontSize: '32px', fill: '#ffffff', align: 'left' });
+    nextFruitLabel = this.add.text(340, 300, 'NEXT:', { fontSize: '32px', fill: '#ffffff', align: 'left' });
     setNextFruit();
     nextFruitDisplay = this.add.sprite(1010, 100, nextFruitKey).setScale(fruitScaleRatios[nextFruitKey]);
 
@@ -127,6 +129,23 @@ function create() {
             var bodyA = event.pairs[i].bodyA;
             var bodyB = event.pairs[i].bodyB;
 
+            // フルーツと壁の衝突を検出する
+            if ((bodyA.label === 'Fruit' && bodyB.label === 'Wall') ||
+                (bodyA.label === 'Wall' && bodyB.label === 'Fruit')) {
+                // 衝突したフルーツに力を適用する
+                var fruitBody = bodyA.label === 'Fruit' ? bodyA : bodyB;
+                // ここで力の大きさと方向を計算（例として0.05の力を適用）
+                this.matter.body.applyForce(fruitBody, { x: 0, y: -0.05 });
+            }
+
+            // フルーツと床の衝突を検出する
+            if ((bodyA.label === 'Fruit' && bodyB.label === 'Floor') ||
+                (bodyA.label === 'Floor' && bodyB.label === 'Fruit')) {
+                var fruitBody = bodyA.label === 'Fruit' ? bodyA : bodyB;
+                // 床とめり込んだ時の反発力を適用
+                this.matter.body.applyForce(fruitBody, { x: 0, y: -0.1 });
+            }
+
             if (isSameFruitCollision(bodyA, bodyB)) {
                 var nextFruitKey = getNextFruitKey(bodyA.gameObject.texture.key);
                 updateScore(getScoreValue(nextFruitKey));
@@ -139,6 +158,14 @@ function create() {
             }
         }
     }, this);
+
+    // 物理エンジンのスリープを無効にする
+    this.matter.world.on('afterUpdate', function (event) {
+        this.matter.body.setStatic(floor, true);
+    });
+
+    var logo = this.add.image(60, 60, 'gureaLogo').setOrigin(0, 0);
+    logo.setDisplaySize(180, 90);
 
     // ゲーム開始時のフルーツ生成
     createNewFruit.call(this);
@@ -234,8 +261,8 @@ function setNextFruit() {
     if (nextFruitDisplay) {
         nextFruitDisplay.setTexture(nextFruitKey);
         nextFruitDisplay.setScale(fruitScaleRatios[nextFruitKey]);
-        nextFruitDisplay.x = 1010;
-        nextFruitDisplay.y = 100;
+        nextFruitDisplay.x = 340;
+        nextFruitDisplay.y = 300;
     }
 }
 
