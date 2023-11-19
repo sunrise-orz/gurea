@@ -35,9 +35,9 @@
 
                 articles.slice(0, displayCount).forEach(article => {
                     const articleHtml = `
-                        <a href="${article.url}" style="text-decoration: none; color: black; display: block; margin-bottom: 15px;">
+                        <a href="${article.url}" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: black; display: block; margin-bottom: 15px;">
                             <div style="display: flex; align-items: center;">
-                                <img src="${article.image}" alt="${article.title}" rel="noopener noreferrer" target="_blank" style="width: 160px; height: 90px; margin-right: 15px;">
+                                <img src="${article.image}" alt="${article.title}" style="width: 160px; height: 90px; margin-right: 15px;">
                                 <div>
                                     <div style="color: gray; font-size: 0.8em; margin-bottom: 5px;">${article.date}</div>
                                     <span style="font-weight: bold;">${article.title}</span>
