@@ -1,13 +1,29 @@
+<!DOCTYPE html>
 <html>
 <head>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // URLからクエリパラメータを解析
+            const params = new URLSearchParams(window.location.search);
+            const user = params.get('user'); // 'user' プロパティを取得
+            const theme = params.get('theme'); // 'theme' プロパティを取得
+            const ids = JSON.parse(params.get('ids')); // 'ids' プロパティ（JSON形式の配列）を解析して取得
+
+            // 各IDに対してリンクを生成し、それを含む blockquote 要素を body の最後に追加
+            ids.forEach(function (id) {
+                const link = `https://twitter.com/${user}/status/${id}`;
+                const blockquote = document.createElement('blockquote');
+                blockquote.className = 'twitter-tweet';
+                blockquote.setAttribute('data-theme', theme);
+                const a = document.createElement('a');
+                a.href = link;
+                blockquote.appendChild(a);
+                document.body.appendChild(blockquote);
+            });
+        });
+    </script>
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </head>
 <body>
-    <blockquote class="twitter-tweet">
-        <a href="https://twitter.com/sunrise_xor/status/1761375302549438555"></a>
-    </blockquote>
-    <blockquote class="twitter-tweet">
-        <a href="https://twitter.com/sunrise_xor/status/1761663396603482122"></a>
-    </blockquote>
 </body>
 </html>
