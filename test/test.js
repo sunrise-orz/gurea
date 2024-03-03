@@ -1,6 +1,5 @@
-
 document.addEventListener('DOMContentLoaded', function () {
-    // �u���E�U�̌���ݒ��HTML��lang�����ɐݒ�
+    // ブラウザの言語設定をHTMLのlang属性に設定
     document.documentElement.lang = navigator.language;
 
     const params = new URLSearchParams(window.location.search);
@@ -38,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
             mutations.forEach((mutation) => {
                 mutation.addedNodes.forEach((node) => {
                     if (node.nodeName === 'IFRAME' && node.id === 'rufous-sandbox') {
-                        console.log('rufous-sandbox iframe���ǉ�����܂����B');
+                        console.log('rufous-sandbox iframeが追加されました。');
                         const height = document.body.scrollHeight;
                         window.parent.postMessage({ iframeHeight: height }, '*');
                         observer.disconnect();
@@ -54,7 +53,16 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function showError() {
-        document.getElementById('error').style.display = 'block';
+        // エラーメッセージを表示するdiv要素を作成
+        var errorDiv = document.createElement('div');
+        errorDiv.id = 'error';
+        errorDiv.className = 'error';
+        errorDiv.textContent = '無効な入力が検出されました';
+
+        // bodyの最初の子要素としてエラーdivを挿入
+        document.body.insertBefore(errorDiv, document.body.firstChild);
+
+        // ページの読み込みを停止
         window.stop();
     }
 });
